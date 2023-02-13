@@ -21,30 +21,6 @@ namespace YAUIL.Test {
 
         protected override void Initialize() {
             base.Initialize();
-
-            frame.Add(new Element() {
-                Name = "Container",
-                Area = (16,128),
-                ID = 1
-            });
-
-            frame.Add(new Element() {
-                Name = "Child",
-                Area = 0.5f,
-                AreaMode = new() {
-                    X = CoordinateMode.ParentWidth,
-                    Y = CoordinateMode.ParentHeight,
-                    Width = SizeMode.ParentWidth,
-                    Height = SizeMode.ParentHeight
-                },
-                Transform = new() {
-                    Origin = -0.5f,
-                    Scale = 1.5f,
-                    Translation = 16,
-                },
-                ID = 2,
-                ParentID = 1
-            });
         }
 
         protected override void LoadContent() {
@@ -73,6 +49,31 @@ namespace YAUIL.Test {
             GraphicsDevice.Clear(Color.Black);
 
             frame.Area = GetViewport(GraphicsDevice.Viewport.Bounds);
+            frame.Clear();
+
+            frame.Add(new Element() {
+                Name = "Container",
+                Area = (16, 128),
+                ID = 1
+            });
+
+            frame.Add(new Element() {
+                Name = "Child",
+                Area = 0.5f,
+                AreaMode = new() {
+                    X = CoordinateMode.ParentWidth,
+                    Y = CoordinateMode.ParentHeight,
+                    Width = SizeMode.ParentWidth,
+                    Height = SizeMode.ParentHeight
+                },
+                Transform = new() {
+                    Origin = -0.5f,
+                    Scale = 1f
+                },
+                ID = 2,
+                Parent = 1
+            });
+
             var layout = frame.GetLayout();
 
             int colorIndex = 0;

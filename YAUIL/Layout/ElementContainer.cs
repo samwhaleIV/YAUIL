@@ -22,19 +22,21 @@
         private readonly ElementOutput[] _elementOutputBuffer;
         private readonly Dictionary<ElementID,int> _elementsInOutputBuffer;
 
+        private readonly HashSet<ElementID> _circularReferenceHitList;
+
         private int _outputBufferIndex = 0;
 
-        private static bool HasParent(Element element) => element.ParentID != ElementID.None;
+        private static bool HasParent(Element element) => element.Parent != ElementID.None;
 
         private Area GetParentArea(Element element) {
-            if(!HasParent(element) || !_elementsInOutputBuffer.TryGetValue(element.ParentID,out int bufferIndex)) {
+            if(!HasParent(element) || !_elementsInOutputBuffer.TryGetValue(element.Parent,out int bufferIndex)) {
                 return Area;
             }
             return _elementOutputBuffer[bufferIndex].Area;
         }
 
         private void AddElementToOutputBuffer(Element element) {
-            if(HasParent(element) && !_elementsInOutputBuffer.ContainsKey(element.ParentID) && _elements.TryGetValue(element.ParentID,out Element parentElement)) {
+            if(HasParent(element) && !_elementsInOutputBuffer.ContainsKey(element.Parent) && _elements.TryGetValue(element.Parent,out Element parentElement)) {
                 AddElementToOutputBuffer(parentElement); /* Warning: Recursive */
             }
        
@@ -63,12 +65,10 @@
             return new ReadOnlySpan<ElementOutput>(_elementOutputBuffer,0,_elements.Count);
         }
 
-        private readonly HashSet<ElementID> _circularReferenceHitList;
-
         private void AssertNoCircularReferences(Element element) {
             ElementID startID = element.ID;
-            while(HasParent(element) && _elements.TryGetValue(element.ParentID,out element)) {
-                if(HasParent(element) && element.ParentID == startID || _circularReferenceHitList.Contains(element.ID)) {
+            while(HasParent(element) && _elements.TryGetValue(element.Parent,out element)) {
+                if(HasParent(element) && element.Parent == startID || _circularReferenceHitList.Contains(element.ID)) {
                     throw new ElementContainerException($"Circular reference detected in parent chain.");
                 }
                 _circularReferenceHitList.Add(element.ID);
@@ -99,6 +99,10 @@
 
         public bool HasElement(ElementID ID) {
             return _elements.ContainsKey(ID);
+        }
+
+        public void Clear() {
+            _elements.Clear();
         }
     }
 }

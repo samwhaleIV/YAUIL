@@ -10,7 +10,7 @@
         public AreaMode AreaMode { get; init; } = new AreaMode();
 
         public string? Name { get; init; } = null;
-        public ElementID ParentID { get; init; } = ElementID.None;
+        public ElementID Parent { get; init; } = ElementID.None;
 
         public override string ToString() {
             return $"{(string.IsNullOrEmpty(Name) ? "<No Name>" : Name)}: ID/{ID}";
