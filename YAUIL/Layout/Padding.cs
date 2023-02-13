@@ -1,4 +1,4 @@
-﻿namespace YAUIL {
+﻿namespace YAUIL.Layout {
     public readonly record struct Padding(
         float Left = 0,
         float Right = 0,

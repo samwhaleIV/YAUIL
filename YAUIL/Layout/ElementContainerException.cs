@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace YAUIL {
+namespace YAUIL.Layout {
 	[Serializable]
 	public class ElementContainerException:Exception {
 		public ElementContainerException() { }

@@ -1,4 +1,4 @@
-﻿namespace YAUIL {
+﻿namespace YAUIL.Layout {
     public enum CoordinateMode {
         /// <summary>
         /// Relative only to <see cref="ElementContainer.Area"/>. Pixel value.

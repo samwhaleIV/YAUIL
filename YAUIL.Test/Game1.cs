@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using YAUIL.Layout;
 
 namespace YAUIL.Test {
     public class Game1:Game {
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
         public Game1() {
@@ -23,23 +24,23 @@ namespace YAUIL.Test {
 
             frame.Add(new Element() {
                 Name = "Container",
-                Area = new(0,0,1,1),
-                AreaMode = new() {
-                    X = CoordinateMode.ParentRTL,
-                    Y = CoordinateMode.ParentRTL,
-                    Width = SizeMode.ParentWidth,
-                    Height = SizeMode.ParentHeight
-                },
-                Padding = Padding.All(8),
+                Area = (16,128),
                 ID = 1
             });
 
             frame.Add(new Element() {
                 Name = "Child",
-                Area = new(25,25,0.1f,0.2f),
+                Area = 0.5f,
                 AreaMode = new() {
-                    Width = SizeMode.ViewportHeight,
-                    Height = SizeMode.ViewportHeight
+                    X = CoordinateMode.ParentWidth,
+                    Y = CoordinateMode.ParentHeight,
+                    Width = SizeMode.ParentWidth,
+                    Height = SizeMode.ParentHeight
+                },
+                Transform = new() {
+                    Origin = -0.5f,
+                    Scale = 1.5f,
+                    Translation = 16,
                 },
                 ID = 2,
                 ParentID = 1
@@ -61,8 +62,8 @@ namespace YAUIL.Test {
             return emptyTexture;
         }
 
-        private Rectangle GetRectangle(Area area) => new((int)area.X,(int)area.Y,(int)area.Width,(int)area.Height);
-        private Area GetViewport(Rectangle rectangle) => new(rectangle.X,rectangle.Y,rectangle.Width,rectangle.Height);
+        private static Rectangle GetRectangle(Area area) => new((int)area.X,(int)area.Y,(int)area.Width,(int)area.Height);
+        private static Area GetViewport(Rectangle rectangle) => new(rectangle.X,rectangle.Y,rectangle.Width,rectangle.Height);
 
         private readonly Color[] colors = new Color[] {
             Color.Red, Color.Orange, Color.Yellow

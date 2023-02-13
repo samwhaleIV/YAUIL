@@ -1,4 +1,4 @@
-﻿namespace YAUIL {
+﻿namespace YAUIL.Layout {
     public enum SizeMode {
         /// <summary>
         /// Pixel size. No translation.

@@ -1,4 +1,4 @@
-﻿namespace YAUIL {
+﻿namespace YAUIL.Layout {
     public readonly record struct AreaMode(
         CoordinateMode X = CoordinateMode.Viewport,
         CoordinateMode Y = CoordinateMode.Viewport,
