@@ -26,27 +26,27 @@
         ParentHeight,
 
         /// <summary>
-        /// Right-to-left version of <see cref="Viewport"/>. Inverted <see cref="Element.Offset"/>. Offset by additional <c>-1*Length</c>. Pixel value.
+        /// Right-to-left version of <see cref="Viewport"/>. Inverted <see cref="Element.OriginOffset"/>. Offset by additional <c>-1*Length</c>. Pixel value.
         /// </summary>
         ViewportRTL,
         /// <summary>
-        /// Right-to-left version of <see cref="ParentWidth"/>. Inverted <see cref="Element.Offset"/>. Offset by additional <c>-1*Length</c>. Pixel value.
+        /// Right-to-left version of <see cref="ParentWidth"/>. Inverted <see cref="Element.OriginOffset"/>. Offset by additional <c>-1*Length</c>. Pixel value.
         /// </summary>
         ParentWidthRTL,
         /// <summary>
-        /// Right-to-left version of <see cref="ViewportWidth"/>. Inverted <see cref="Element.Offset"/>. Offset by additional <c>-1*Length</c>. Normal coordinate is altered: <c>1-value</c>. Non-pixel value.
+        /// Right-to-left version of <see cref="ViewportWidth"/>. Inverted <see cref="Element.OriginOffset"/>. Offset by additional <c>-1*Length</c>. Normal coordinate is altered: <c>1-value</c>. Non-pixel value.
         /// </summary>
         ViewportWidthRTL,
         /// <summary>
-        /// Right-to-left version of <see cref="ViewportHeight"/>. Inverted <see cref="Element.Offset"/>. Offset by additional <c>-1*Length</c>. Normal coordinate is altered: <c>1-value</c>. Non-pixel value.
+        /// Right-to-left version of <see cref="ViewportHeight"/>. Inverted <see cref="Element.OriginOffset"/>. Offset by additional <c>-1*Length</c>. Normal coordinate is altered: <c>1-value</c>. Non-pixel value.
         /// </summary>
         ViewportHeightRTL,
         /// <summary>
-        /// Right-to-left version of <see cref="Parent"/>. Inverted <see cref="Element.Offset"/>. Offset by additional <c>-1*Length</c>. Normal coordinate is altered <c>1-value</c>. Non-pixel value.
+        /// Right-to-left version of <see cref="Parent"/>. Inverted <see cref="Element.OriginOffset"/>. Offset by additional <c>-1*Length</c>. Normal coordinate is altered <c>1-value</c>. Non-pixel value.
         /// </summary>
         ParentRTL,
         /// <summary>
-        /// Right-to-left version of <see cref="ParentHeight"/>.  Inverted <see cref="Element.Offset"/>. Offset by additional <c>-1*Length</c>. Normal coordinate is altered <c>1-value</c>. Non-pixel value.
+        /// Right-to-left version of <see cref="ParentHeight"/>.  Inverted <see cref="Element.OriginOffset"/>. Offset by additional <c>-1*Length</c>. Normal coordinate is altered <c>1-value</c>. Non-pixel value.
         /// </summary>
         ParentHeightRTL
     }

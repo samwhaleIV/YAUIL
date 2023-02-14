@@ -1,4 +1,6 @@
-﻿namespace YAUIL.Layout {
+﻿using System.Runtime.Serialization;
+
+namespace YAUIL.Layout {
     /// <remarks>
     /// Not thread safe.
     /// </remarks>

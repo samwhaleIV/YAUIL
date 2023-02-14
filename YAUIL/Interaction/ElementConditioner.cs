@@ -1,33 +1,18 @@
 ﻿namespace YAUIL.Interaction {
     public abstract class ElementConditioner {
 
-        public ElementConditioner(int maxSelectionCount = Constants.DefaultMaxElementCount) {
-            _maxSelectionCount = maxSelectionCount;
-        }
-
-        private readonly int _maxSelectionCount;
-        public int MaxSelectionCount => _maxSelectionCount;
-
         private readonly HashSet<ElementID> _selectedElements = new();
+        private readonly Queue<ElementConditionUpdate> _elementConditionUpdates = new();
+
         public IEnumerable<ElementID> GetSelectedElements() => _selectedElements;
-
         public int SelectedElementCount => _selectedElements.Count;
-
-        public bool AllowMultipleSelections { get; init; }
-        public bool ConditionsPaused { get; set; } = false;
 
         public ElementID? CapturedElement { get; private set; } = null;
         public ElementID? SelectedElement { get; private set; } = null;
 
-        protected void AddSelectedElement(ElementID elementID,bool clearSelectionList = true) {
-            if(ConditionsPaused || _selectedElements.Contains(elementID)) {
+        protected void AddSelectedElement(ElementID elementID) {
+            if(_selectedElements.Contains(elementID)) {
                 return;
-            }
-            if(!AllowMultipleSelections || clearSelectionList) {
-                foreach(var ID in _selectedElements) {
-                    _elementConditionUpdates.Enqueue(new(ID,ElementConditonChange.SelectionRemoved));
-                }
-                _selectedElements.Clear();
             }
             SelectedElement = elementID;    
             _selectedElements.Add(elementID);
@@ -36,7 +21,7 @@
 
         protected void ClearSelectedElements() {
             ElementID? selectedElement = SelectedElement;
-            if(ConditionsPaused || !selectedElement.HasValue) {
+            if(!selectedElement.HasValue) {
                 return;
             }
             foreach(var ID in _selectedElements) {
@@ -49,9 +34,6 @@
         }
 
         protected void SetCapturedElement(ElementID elementID) {
-            if(ConditionsPaused) {
-                return;
-            }
             ElementID? capturedElement = CapturedElement;
             if(capturedElement.HasValue) {
                 _elementConditionUpdates.Enqueue(new(capturedElement.Value,ElementConditonChange.CaptureRemoved));
@@ -62,7 +44,7 @@
         }
 
         protected void ClearCapturedElement() {
-            if(ConditionsPaused || !CapturedElement.HasValue) {
+            if(!CapturedElement.HasValue) {
                 return;
             }
             ElementID capturedElement = CapturedElement.Value;
@@ -71,11 +53,9 @@
             _elementConditionUpdates.Enqueue(new(capturedElement,ElementConditonChange.CaptureRemoved));
         }
 
-        private readonly Queue<ElementConditionUpdate> _elementConditionUpdates = new();
-
-        public void PollCaptureStatusChanges() {
-            while(_elementConditionUpdates.TryDequeue(out ElementConditionUpdate captureStatusUpdate)) {
-                ApplyElementConditionChange(captureStatusUpdate.ID,captureStatusUpdate.Type);
+        public void PollElementConditionChanges() {
+            while(_elementConditionUpdates.TryDequeue(out ElementConditionUpdate elementConditionUpdate)) {
+                ApplyElementConditionChange(elementConditionUpdate.ID,elementConditionUpdate.Type);
             }
         }
 

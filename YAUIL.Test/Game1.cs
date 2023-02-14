@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using YAUIL.Layout;
 
 namespace YAUIL.Test {
@@ -53,25 +52,9 @@ namespace YAUIL.Test {
 
             frame.Add(new Element() {
                 Name = "Container",
-                Area = (16, 128),
+                Area = (0,0,Size.ParentWidth,Size.ParentHeight),
+                Padding = (8,SizeMode.Absolute),
                 ID = 1
-            });
-
-            frame.Add(new Element() {
-                Name = "Child",
-                Area = 0.5f,
-                AreaMode = new() {
-                    X = CoordinateMode.ParentWidth,
-                    Y = CoordinateMode.ParentHeight,
-                    Width = SizeMode.ParentWidth,
-                    Height = SizeMode.ParentHeight
-                },
-                Transform = new() {
-                    Origin = -0.5f,
-                    Scale = 1f
-                },
-                ID = 2,
-                Parent = 1
             });
 
             var layout = frame.GetLayout();

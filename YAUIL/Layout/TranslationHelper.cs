@@ -3,56 +3,55 @@
         
         /* She ain't pretty, but she's honest. */
 
-        internal static float TranslateByCoordinateMode(float value,float length,CoordinateBounds bounds,CoordinateMode coordinateMode,Point viewportSize,Point parentSize) => coordinateMode switch {
-            CoordinateMode.Viewport => bounds.ViewportOrigin + value,
-            CoordinateMode.Parent => bounds.ParentOrigin + value,
+        internal static float TranslateByCoordinateMode(Coordiante coordinate,float length,CoordinateBounds bounds,Point viewportSize,Point parentSize) => coordinate.Mode switch {
+            CoordinateMode.Viewport => bounds.ViewportOrigin + coordinate.Value,
+            CoordinateMode.Parent => bounds.ParentOrigin + coordinate.Value,
 
-            CoordinateMode.ViewportWidth => bounds.ParentOrigin + value * viewportSize.X,
-            CoordinateMode.ViewportHeight => bounds.ParentOrigin + value * viewportSize.Y,
+            CoordinateMode.ViewportWidth => bounds.ParentOrigin + coordinate.Value * viewportSize.X,
+            CoordinateMode.ViewportHeight => bounds.ParentOrigin + coordinate.Value * viewportSize.Y,
 
-            CoordinateMode.ParentWidth => bounds.ParentOrigin + value * parentSize.X,
-            CoordinateMode.ParentHeight => bounds.ParentOrigin + value * parentSize.Y,
+            CoordinateMode.ParentWidth => bounds.ParentOrigin + coordinate.Value * parentSize.X,
+            CoordinateMode.ParentHeight => bounds.ParentOrigin + coordinate.Value * parentSize.Y,
 
-            CoordinateMode.ViewportRTL => bounds.ViewportLimit - value - length,
-            CoordinateMode.ParentRTL => bounds.ParentOrigin + bounds.ParentLimit - value - length,
+            CoordinateMode.ViewportRTL => bounds.ViewportLimit - coordinate.Value - length,
+            CoordinateMode.ParentRTL => bounds.ParentOrigin + bounds.ParentLimit - coordinate.Value - length,
 
-            CoordinateMode.ViewportWidthRTL => bounds.ParentOrigin + (1 - value) * viewportSize.X -length,
-            CoordinateMode.ViewportHeightRTL => bounds.ParentOrigin + (1 - value) * viewportSize.Y - length,
+            CoordinateMode.ViewportWidthRTL => bounds.ParentOrigin + (1 - coordinate.Value) * viewportSize.X -length,
+            CoordinateMode.ViewportHeightRTL => bounds.ParentOrigin + (1 - coordinate.Value) * viewportSize.Y - length,
 
-            CoordinateMode.ParentWidthRTL => bounds.ParentOrigin + (1 - value) * parentSize.X - length,
-            CoordinateMode.ParentHeightRTL => bounds.ParentOrigin + (1 - value) * parentSize.Y - length,
+            CoordinateMode.ParentWidthRTL => bounds.ParentOrigin + (1 - coordinate.Value) * parentSize.X - length,
+            CoordinateMode.ParentHeightRTL => bounds.ParentOrigin + (1 - coordinate.Value) * parentSize.Y - length,
             _ => 0
         };
 
-        internal static float TranslateBySizeMode(float value,SizeMode sizeMode,Point viewportSize,Point parentSize) => sizeMode switch {
-            SizeMode.Absolute => value,
+        internal static float TranslateBySizeMode(Size size,Point viewportSize,Point parentSize) => size.Mode switch {
+            SizeMode.Absolute => size.Value,
 
-            SizeMode.ViewportWidth => value * viewportSize.X,
-            SizeMode.ViewportHeight => value * viewportSize.Y,
+            SizeMode.ViewportWidth => size.Value * viewportSize.X,
+            SizeMode.ViewportHeight => size.Value * viewportSize.Y,
 
-            SizeMode.ParentWidth => value * parentSize.X,
-            SizeMode.ParentHeight => value * parentSize.Y,
+            SizeMode.ParentWidth => size.Value * parentSize.X,
+            SizeMode.ParentHeight => size.Value * parentSize.Y,
             _ => 0
         };
 
-        internal static Area TranslateAreaByPadding(Area area,Padding padding,Point viewportSize,Point parentSize) {
-            float left = area.X + TranslateBySizeMode(padding.Left,padding.LeftMode,viewportSize,parentSize);
-            float top = area.Y + TranslateBySizeMode(padding.Top,padding.TopMode,viewportSize,parentSize);
+        internal static Area TranslateAreaByPadding(Area area,Element element,Point viewportSize,Point parentSize) {
+            float left = area.X + TranslateBySizeMode(element.PaddingLeft,viewportSize,parentSize);
+            float top = area.Y + TranslateBySizeMode(element.PaddingTop,viewportSize,parentSize);
 
-            float right = area.Right - TranslateBySizeMode(padding.Right,padding.RightMode,viewportSize,parentSize);
-            float bottom = area.Bottom - TranslateBySizeMode(padding.Bottom,padding.BottomMode,viewportSize,parentSize);
+            float right = area.Right - TranslateBySizeMode(element.PaddingRight,viewportSize,parentSize);
+            float bottom = area.Bottom - TranslateBySizeMode(element.PaddingBottom,viewportSize,parentSize);
 
             return new Area(left,top,right-left,bottom-top);
         }
 
-        internal static Area TranslateAreaByTransform(Area area,Transform transform,Point viewportSize,Point parentSize) {
+        internal static Area TranslateAreaByTransform(Area area,Element element,Point viewportSize,Point parentSize) {
 
-            Point scaledSize = area.Size * transform.Scale;
-
-            Point origin = area.Origin + scaledSize * transform.Origin;
+            Point scaledSize = area.Size * element.Scale;
+            Point origin = area.Origin + scaledSize * element.OriginOffset;
                     
-            float x = origin.X + TranslateBySizeMode(transform.Translation.X,transform.TranslationModeX,viewportSize,parentSize);
-            float y = origin.Y + TranslateBySizeMode(transform.Translation.Y,transform.TranslationModeY,viewportSize,parentSize);
+            float x = origin.X + TranslateBySizeMode(element.TranslationX,viewportSize,parentSize);
+            float y = origin.Y + TranslateBySizeMode(element.TranslationY,viewportSize,parentSize);
 
             area = new(x,y,scaledSize.X,scaledSize.Y);
             return area;
@@ -62,8 +61,8 @@
             Point viewportSize = viewportArea.Size;
             Point parentSize = parentArea.Size;
 
-            float width = TranslateBySizeMode(element.Area.Width,element.AreaMode.Width,viewportSize,parentSize),
-                 height = TranslateBySizeMode(element.Area.Height,element.AreaMode.Height,viewportSize,parentSize);
+            float width = TranslateBySizeMode(element.Width,viewportSize,parentSize),
+                 height = TranslateBySizeMode(element.Height,viewportSize,parentSize);
 
             /* This wouldn't be so redundant if it weren't for the fact that X and Y can have independent coordinate modes. This way, at least, avoids branching. */
 
@@ -73,11 +72,11 @@
                 ViewportOrigin = viewportArea.Y,ViewportLimit = viewportArea.Bottom,ParentOrigin = parentArea.Y,ParentLimit = parentArea.Bottom
             };
 
-            float x = TranslateByCoordinateMode(element.Area.X,width,xBounds,element.AreaMode.X,viewportSize,parentSize),
-                  y = TranslateByCoordinateMode(element.Area.Y,height,yBounds,element.AreaMode.Y,viewportSize,parentSize);
+            float x = TranslateByCoordinateMode(element.X,width,xBounds,viewportSize,parentSize),
+                  y = TranslateByCoordinateMode(element.Y,height,yBounds,viewportSize,parentSize);
 
-            Area outputArea = TranslateAreaByPadding(new Area(x,y,width,height),element.Padding,viewportSize,parentSize);
-            outputArea = TranslateAreaByTransform(outputArea,element.Transform,viewportSize,parentSize);
+            Area outputArea = TranslateAreaByPadding(new Area(x,y,width,height),element,viewportSize,parentSize);
+            outputArea = TranslateAreaByTransform(outputArea,element,viewportSize,parentSize);
 
             return new ElementOutput(element.ID,outputArea);
         }
