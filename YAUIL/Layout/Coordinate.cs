@@ -16,5 +16,11 @@
         public static implicit operator Coordiante(float value) {
             return new Coordiante(value,CoordinateMode.Parent);
         }
+
+        public static readonly Coordiante ParentCenterX = new(0.5f,CoordinateMode.ParentWidth);
+        public static readonly Coordiante ParentCenterY = new(0.5f,CoordinateMode.ParentHeight);
+
+        public static readonly Coordiante ViewportCenterX = new(0.5f,CoordinateMode.ViewportWidth);
+        public static readonly Coordiante ViewportCenterY = new(0.5f,CoordinateMode.ViewportHeight);
     }
 }

@@ -1,3 +1,2 @@
-﻿
-using var game = new YAUIL.Test.Game1();
+﻿using var game = new YAUILTest.Game1();
 game.Run();

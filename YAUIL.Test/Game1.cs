@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using YAUIL;
 using YAUIL.Layout;
 
-namespace YAUIL.Test {
+namespace YAUILTest {
     public class Game1:Game {
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -51,10 +52,18 @@ namespace YAUIL.Test {
             frame.Clear();
 
             frame.Add(new Element() {
-                Name = "Container",
-                Area = (0,0,Size.ParentWidth,Size.ParentHeight),
+                Name = "container",
+                Area = (Size.ParentWidth,Size.ParentHeight),
                 Padding = (8,SizeMode.Absolute),
                 ID = 1
+            });
+
+            frame.Add(new Element() {
+                Name = "container-child",
+                ID = 2,
+                Parent = 1,
+                Area = (Coordiante.ParentCenterX,Coordiante.ParentCenterY,50),
+                OriginOffset = -0.5f
             });
 
             var layout = frame.GetLayout();

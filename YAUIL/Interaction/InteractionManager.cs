@@ -23,7 +23,7 @@ namespace YAUIL.Interaction {
         }
 
         private void ProcessEvent(ImpulseEvent impulseEvent) {
-
+            throw new NotImplementedException();
         }
     }
 }

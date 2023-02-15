@@ -22,14 +22,17 @@
         public Size TranslationX { get; init; } = new(0,SizeMode.Absolute);
         public Size TranslationY { get; init; } = new(0,SizeMode.Absolute);
 
-        public (Coordiante X,Coordiante Y,Size Width,Size Height) Area {
+        public AreaSet Area {
             init { X = value.X; Y = value.Y; Width = value.Width; Height = value.Height; }
         }
 
         public PaddingSet Padding {
             init { PaddingLeft = value.Left; PaddingTop = value.Top; PaddingRight = value.Right; PaddingBottom = value.Bottom; }
         }
-        
+
+        public TranslationSet Translation {
+            init { TranslationX = value.X; TranslationY = value.Y; }
+        }
 
         public override string ToString() {
             return $"{(string.IsNullOrEmpty(Name) ? "<No Name>" : Name)}: ID/{ID}";

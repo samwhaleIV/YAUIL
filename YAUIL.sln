@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YAUIL", "YAUIL\YAUIL.csproj", "{82118814-09D1-49EC-B7BA-72E91E643297}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YAUIL", "YAUIL\YAUIL.csproj", "{82118814-09D1-49EC-B7BA-72E91E643297}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YAUIL.Test", "YAUIL.Test\YAUIL.Test.csproj", "{ABB33372-6015-49F6-9451-D4235DB020B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YAUILTest", "YAUIL.Test\YAUILTest.csproj", "{ABB33372-6015-49F6-9451-D4235DB020B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

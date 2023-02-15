@@ -1,3 +1,8 @@
 ﻿namespace YAUIL.Interaction {
-    public enum ElementConditonChange { SelectionAdded, SelectionRemoved, CaptureAdded, CaptureRemoved }
+    public enum ElementConditonChange {
+        SelectionAdded,
+        SelectionRemoved,
+        CaptureAdded,
+        CaptureRemoved
+    }
 }
